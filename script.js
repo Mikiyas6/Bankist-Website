@@ -9,6 +9,9 @@ const btnScrollTo = document.querySelector('.btn--scroll-to');
 const navLinks = document.querySelector('.nav__links');
 const navLink = document.querySelectorAll('.nav__link');
 const nav = document.querySelector('.nav');
+const logo = document.querySelector('.nav__logo');
+const operationsContainer = document.querySelector('.operations');
+const header = document.querySelector('header');
 
 ///////////////////////////////////////
 // Modal window
@@ -77,6 +80,114 @@ window.scrollY - from the start of the page the beginning of the view port
 document.documentElement.clientHeight - Height of the view port
 document.documentElement.clientWidth - width of the view port
 */
+
+/////////////////////////////////////////////////
+// Tabbed Component
+
+operationsContainer.addEventListener('click', function (e) {
+  const targetElement = e.target;
+  /* We do this if an event might happen on a child element (span)
+  of the element we want to work on (The button that enclosed the span). 
+  But since we want to get the element that we want, we'll apply the
+  closest method to get the element that we want (have the specific class)*/
+  const parentThatWeWant = targetElement.closest('.operations__tab');
+  if (parentThatWeWant) {
+    [...document.getElementsByClassName('operations__tab')].forEach(function (
+      item
+    ) {
+      item.classList.remove('operations__tab--active');
+    });
+
+    parentThatWeWant.classList.add('operations__tab--active');
+    [...document.getElementsByClassName('operations__content')].forEach(
+      function (element) {
+        element.classList.remove('operations__content--active');
+      }
+    );
+    const str = parentThatWeWant.getAttribute('data-tab');
+    document
+      .querySelector(`.operations__content--${str}`)
+      .classList.add('operations__content--active');
+  }
+});
+
+/////////////////////////////////////////////////
+// NavBar
+
+// Mouseenter does not bubble
+const handleHover = function (e, bool) {
+  const targetElement = e.target;
+  const logo = targetElement.closest('.nav').querySelector('img');
+  const parentThatWeWant = targetElement.closest('.nav__link');
+  if (parentThatWeWant) {
+    bool && logo.style.setProperty('opacity', '0.5');
+    !bool && logo.style.setProperty('opacity', '1');
+    targetElement
+      .closest('.nav')
+      .querySelectorAll('.nav__link')
+      .forEach(function (child) {
+        bool && child.style.setProperty('opacity', '0.5');
+        !bool && child.style.setProperty('opacity', '1');
+      });
+    bool && parentThatWeWant.style.setProperty('opacity', '100');
+  }
+};
+nav.addEventListener('mouseover', e => handleHover(e, true));
+
+nav.addEventListener('mouseout', e => handleHover(e, false));
+
+/////////////////////////////////////////////////
+// NavBar
+
+// document.addEventListener('scroll', function (e) {
+//   const distanceScrolledY = window.scrollY;
+//   const heightOfViewPort = document.documentElement.clientHeight;
+
+//   if (distanceScrolledY > heightOfViewPort) {
+//     nav.classList.add('sticky');
+//   } else {
+//     nav.classList.remove('sticky');
+//   }
+// });
+
+const stickyCallback = function (entries) {
+  entries.forEach(function (entry) {
+    !entry.isIntersecting && nav.classList.add('sticky');
+    entry.isIntersecting && nav.classList.remove('sticky');
+  });
+};
+
+const stickyOptions = {
+  root: null,
+  threshold: [0],
+  rootMargin: `-${nav.getBoundingClientRect().height}px`, //Help to execute the callback 90px before the threshold appeared
+};
+
+const headerObserver = new IntersectionObserver(stickyCallback, stickyOptions);
+headerObserver.observe(header);
+
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
+
+// This callback function will be called each time that
+//the observed (target) element is intersecting the root element
+// at the threshold we defined
+// const obsCallback = function (entries, observer) {
+//   entries.forEach(entry => {
+//     alert('🎉🎉🎉🎉 Yay');
+//   });
+// };
+
+// const obsOptions = {
+//   root: null, // The element we want our target element to intersect
+//   threshold: [0, 0.2], // The percentage of intersection in which
+//   // the callback function will be called
+// };
+
+// const observer = new IntersectionObserver(obsCallback, obsOptions);
+// observer.observe(section1); // We observe our target element
+
+/* When {threshold} amount of my targeted part 
+of the website {section1} becomes visible in or Intersects {root}, 
+execute the callback function */
