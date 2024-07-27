@@ -13,7 +13,11 @@ const logo = document.querySelector('.nav__logo');
 const operationsContainer = document.querySelector('.operations');
 const header = document.querySelector('header');
 const sections = document.querySelectorAll('.section');
-
+const featuresImages = document.querySelectorAll('.features__img');
+const slides = document.querySelectorAll('.slide');
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
+const slider = document.querySelector('.slider');
 ///////////////////////////////////////
 // Modal window
 const openModal = function (e) {
@@ -185,9 +189,73 @@ const revealOptions = {
 const sectionObserver = new IntersectionObserver(revealSection, revealOptions);
 
 sections.forEach(function (section) {
-  section.classList.add('section--hidden');
+  // section.classList.add('section--hidden');
   sectionObserver.observe(section);
 });
+
+/////////////////////////////////////////////////
+//Lazy loading images
+
+const imageCallback = function (entries) {
+  entries.forEach(function (entry) {
+    if (!entry.isIntersecting) return;
+    entry.target.src = entry.target.getAttribute('data-src');
+    // When the image finish loading, remove the blur
+    entry.target.addEventListener('load', function (e) {
+      entry.target.classList.remove('lazy-img');
+    });
+    observer.unobserve(entry.target);
+  });
+};
+
+const imageOptions = {
+  root: null,
+  threshold: [0], // Any part of the target element is intersects the root element
+  rootMargin: '200px',
+};
+
+const imgObserver = new IntersectionObserver(imageCallback, imageOptions);
+
+featuresImages.forEach(function (featuresImage) {
+  imgObserver.observe(featuresImage);
+});
+
+/////////////////////////////////////////////////
+//Slider
+let currentSlide = 0;
+// slider.style.overflow = 'visible';
+const maxSlide = slides.length;
+
+const goToSlide = function (s) {
+  slides.forEach(function (slide, index) {
+    slide.style.transform = `translateX(${100 * (index - s)}%)`;
+  });
+};
+
+const nextSlide = function () {
+  if (currentSlide === maxSlide - 1) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+  goToSlide(currentSlide);
+};
+
+const prevSlide = function () {
+  if (currentSlide === 0) {
+    currentSlide = maxSlide - 1;
+  } else {
+    currentSlide--;
+  }
+  goToSlide(currentSlide);
+};
+
+goToSlide(0);
+
+btnRight.addEventListener('click', nextSlide);
+
+btnLeft.addEventListener('click', prevSlide);
+
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
