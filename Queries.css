@@ -1,0 +1,107 @@
+* ********************************  */
+/* For Small Laptops(Below 1366px) ->  1366px/16px = 85.375em */
+/* ******************************** */
+@media (max-width: 85.375em) {
+}
+
+/* ********************************  */
+/* For Landscape Tablets(Below 1200px) ->  1200px/16px = 75em */
+/* ******************************** */
+
+@media (max-width: 75em) {
+  /* 9px/16px =  0.5625*/
+  /* font-size Adjustment */
+  html {
+    font-size: 56.25%;
+  }
+}
+
+/* ********************************  */
+/* For Tablet(Below 960px) ->  960px/16px = 60em */
+/* ******************************** */
+@media (max-width: 60em) {
+  /* 8px/16px =  0.5*/
+  /* font-size Adjustment */
+  html {
+    font-size: 50%;
+  }
+}
+
+/* ********************************  */
+/* For Small-Tablets(Below 760px) ->  760px/16px = 47.5em */
+/* ******************************** */
+@media (max-width: 47.5em) {
+  /* 7px/16px =  0.4375*/
+  html {
+    font-size: 43.75%;
+  }
+}
+
+@media (max-width: 41.375em) {
+  /* 6px/16px =  37.5*/
+  html {
+    font-size: 37.5%;
+  }
+  .nav {
+    padding: 0;
+  }
+  .features__feature {
+    width: 100%;
+    text-align: start;
+  }
+  .features {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    margin: 0 12rem;
+  }
+  .features__feature--1 {
+    grid-row: 1 / span 1;
+  }
+  .features__img--1 {
+    grid-row: 2 / span 1;
+  }
+  .features__feature--3 {
+    grid-row: 5 / span 1;
+  }
+  .features__img--1,
+  .features__img--2 {
+    margin-bottom: 6rem;
+  }
+}
+
+/* ********************************  */
+/* For Phones(Below 560px) ->  560px/16px = 35em */
+/* ******************************** */
+@media (max-width: 30.625em) {
+  /* 5px/16px =  31.25*/
+  html {
+    font-size: 31.25%;
+  }
+  .nav {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+    gap: 4rem;
+  }
+  .header__title {
+    grid-template-columns: 3fr 2fr;
+    align-content: start;
+    justify-content: center;
+    margin-top: 40rem;
+  }
+  h1 {
+    grid-row: 1 / span 1;
+    align-self: center;
+    justify-self: center;
+  }
+  h4 {
+    grid-row: 2 / span 1;
+  }
+  .header__img {
+    grid-row: 1 / span 1;
+    grid-column: 2 / span 1;
+    transform: translateY(0);
+  }
+}
