@@ -90,6 +90,7 @@
     align-content: start;
     justify-content: center;
     margin-top: 40rem;
+    gap: 7rem;
   }
   h1 {
     grid-row: 1 / span 1;
@@ -103,5 +104,12 @@
     grid-row: 1 / span 1;
     grid-column: 2 / span 1;
     transform: translateY(0);
+  }
+
+  .footer__nav {
+    justify-content: space-between;
+  }
+  .footer__item {
+    margin-right: 3rem;
   }
 }
