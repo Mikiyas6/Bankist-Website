@@ -18,6 +18,7 @@ const slides = document.querySelectorAll('.slide');
 const btnLeft = document.querySelector('.slider__btn--left');
 const btnRight = document.querySelector('.slider__btn--right');
 const slider = document.querySelector('.slider');
+const dotContainer = document.querySelector('.dots');
 ///////////////////////////////////////
 // Modal window
 const openModal = function (e) {
@@ -177,7 +178,7 @@ headerObserver.observe(header);
 const revealSection = function (entries) {
   entries.forEach(function (entry) {
     entry.isIntersecting && entry.target.classList.remove('section--hidden');
-    observer.unobserve(entry.target);
+    sectionObserver.unobserve(entry.target);
   });
 };
 
@@ -256,6 +257,42 @@ btnRight.addEventListener('click', nextSlide);
 
 btnLeft.addEventListener('click', prevSlide);
 
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowRight') nextSlide();
+  else if (e.key === 'ArrowLeft') prevSlide();
+});
+
+/////////////////////////////////////////////////
+//Slider
+
+const createDots = function () {
+  for (let i = 0; i < 3; i++) {
+    let but = document.createElement('button');
+    but.classList.add('dots__dot');
+    if (i === 0) but.classList.add('dots__dot--active');
+    but.setAttribute('data-slide', `${i}`);
+    dotContainer.append(but);
+  }
+};
+
+createDots();
+
+const dots = document.querySelectorAll('.dots__dot');
+
+const clearActiveDotState = function () {
+  dots.forEach(function (eachDots) {
+    eachDots.classList.remove('dots__dot--active');
+  });
+};
+
+dots.forEach(function (dot) {
+  dot.addEventListener('click', function (e) {
+    clearActiveDotState();
+    const index = e.target.getAttribute('data-slide');
+    e.target.classList.add('dots__dot--active');
+    goToSlide(Number(index));
+  });
+});
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
